@@ -5,7 +5,7 @@ import 'package:zotfeast/pages/recipe_screen.dart';
 import 'package:zotfeast/pages/user_profile_screen.dart';
 import 'package:zotfeast/pages/map_screen.dart';
 
-void main() => runApp(MaterialApp(initialRoute: '/', routes: {
+void main() => runApp(MaterialApp(initialRoute: '/userProfile', routes: {
       '/': (context) => HomeScreen(),
       '/home': (context) => HomeScreen(),
       '/map': (context) => MapScreen(),
