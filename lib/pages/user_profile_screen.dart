@@ -44,7 +44,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 color: Colors.black,
                 fontSize: 32.0,
                 fontWeight: FontWeight.bold,
-                fontFamily: 'PlayFairDisplay',
+                //fontFamily: 'PlayFairDisplay',
               ),
             ),
             SizedBox(height:5.0),
@@ -71,7 +71,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           style: TextStyle(
                             fontSize: 22.0, 
                             color: Color(0xFFF8F2ED),
-                            fontFamily: 'Lato'
+                            //fontFamily: 'Lato'
                             ),
                           textAlign: TextAlign.left),
                       InkWell(
@@ -113,7 +113,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           style: TextStyle(
                             fontSize: 22.0, 
                             color: Color(0xFFF8F2ED),
-                            fontFamily: 'Lato'
+                            //fontFamily: 'Lato'
                             ),
                           textAlign: TextAlign.left),
                       InkWell(
