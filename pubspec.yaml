@@ -89,16 +89,13 @@ flutter:
           weight: 700
 
   # fonts:
-  #   - family: Schyler
+  #   - family: PlayFairDisplay
   #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
+  #       - asset: fonts/PlayfairDisplay-Bold.ttf
+  #   - family: Lato
   #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  #       - asset: fonts/Lato-Regular.ttf
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
