@@ -57,8 +57,36 @@ class ThemeConfig {
       primaryColor: accentColor,
       iconTheme: IconThemeData(
         color: secondaryText,
-        size: 16.0,
+        size: 20.0,
       ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: ColorConstants.zotfeastBrownDark,
+        selectedItemColor: ColorConstants.zotfeastBrownLight,
+        unselectedItemColor: ColorConstants.zotfeastBrownLight,
+        selectedLabelStyle: TextStyle(
+          color: ColorConstants.zotfeastBrownLight,
+          fontFamily: 'Lato',
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+        ),
+        unselectedLabelStyle: TextStyle(
+          color: ColorConstants.zotfeastBrownLight,
+          fontFamily: 'Lato',
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+        ),
+        showUnselectedLabels: true,
+        selectedIconTheme: IconThemeData(
+          color: ColorConstants.zotfeastBrownLight,
+          size: 24.0,
+        ),
+        unselectedIconTheme: IconThemeData(
+          color: ColorConstants.zotfeastBrownLight,
+          size: 24.0,
+        ),
+      ),
+
       // buttonTheme: ButtonThemeData(
       //   textTheme: ButtonTextTheme.primary,
       //   colorScheme: ColorScheme(
