@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zotfeast/config/color_constants.dart';
+import 'package:zotfeast/components/rounded_rectangle.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,7 +9,6 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-// const Color(0xFFF8F2ED)
 class _HomeScreenState extends State<HomeScreen> {
   int navBarIdx = 0;
 
@@ -29,68 +29,55 @@ class _HomeScreenState extends State<HomeScreen> {
           "Upcoming Task",
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10.0),
-          child: Container(
-              color: const Color(0xFFD2C3B3),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-                child: Column(children: [
-                  Text("Buy Groceries @ 10AM",
-                      style: Theme.of(context).textTheme.titleLarge,
+        RoundedRectangle(
+          borderRadiusAmt: 10.0,
+          containerColor: ColorConstants.zotfeastBrown,
+          paddingInset: const EdgeInsets.fromLTRB(40, 20, 40, 20),
+          childWidget: Column(children: [
+            Text("Buy Groceries @ 10AM",
+                style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.center),
+            Row(
+              children: [
+                RoundedRectangle(
+                  borderRadiusAmt: 10.0,
+                  containerColor: ColorConstants.zotfeastBrownLight,
+                  paddingInset: const EdgeInsets.fromLTRB(14, 11, 14, 11),
+                  childWidget: Text("More Info",
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          color: ColorConstants.zotfeastBrownDark),
                       textAlign: TextAlign.center),
-                  Row(
-                    children: [
-                      ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Container(
-                              color: ColorConstants.zotfeastBrownLight,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(14, 11, 14, 11),
-                                child: Text("More Info",
-                                    style: TextStyle(
-                                        fontSize: 15.0,
-                                        color:
-                                            ColorConstants.zotfeastBrownDark),
-                                    textAlign: TextAlign.center),
-                              ))),
-                      const SizedBox(width: 36.0),
-                      ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Container(
-                              color: const Color(0xFFF8F2ED),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(14, 11, 14, 11),
-                                child: Text("R | Y",
-                                    style: TextStyle(
-                                        fontSize: 15.0,
-                                        color: const Color(0xFFB5A599)),
-                                    textAlign: TextAlign.center),
-                              )))
-                    ],
-                  )
-                ]),
-              )),
+                ),
+                const SizedBox(width: 36.0),
+                RoundedRectangle(
+                    borderRadiusAmt: 10.0,
+                    containerColor: ColorConstants.zotfeastBrownLight,
+                    paddingInset: const EdgeInsets.fromLTRB(14, 11, 14, 11),
+                    childWidget: Text("R | Y",
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            color: ColorConstants.zotfeastBrownDark),
+                        textAlign: TextAlign.center)),
+              ],
+            )
+          ]),
         ),
         const SizedBox(height: 46.0),
         Text(
           "Your Schedule Today",
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Container(
-                color: ColorConstants.zotfeastBrown,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(25, 15, 25, 15),
-                  child: Image.asset(
-                    'example_schedule.png',
-                    width: 278,
-                    height: 236,
-                  ),
-                )))
+        RoundedRectangle(
+          borderRadiusAmt: 10.0,
+          containerColor: ColorConstants.zotfeastBrown,
+          paddingInset: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+          childWidget: Image.asset(
+            'example_schedule.png',
+            width: 278,
+            height: 236,
+          ),
+        )
       ]),
     );
   }
