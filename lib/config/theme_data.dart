@@ -67,23 +67,23 @@ class ThemeConfig {
         selectedLabelStyle: TextStyle(
           color: ColorConstants.zotfeastBrownLight,
           fontFamily: 'Lato',
-          fontSize: 16,
+          fontSize: 14,
           fontWeight: FontWeight.w400,
         ),
         unselectedLabelStyle: TextStyle(
           color: ColorConstants.zotfeastBrownLight,
           fontFamily: 'Lato',
-          fontSize: 16,
+          fontSize: 14,
           fontWeight: FontWeight.w400,
         ),
         showUnselectedLabels: true,
         selectedIconTheme: IconThemeData(
           color: ColorConstants.zotfeastBrownLight,
-          size: 24.0,
+          size: 28.0,
         ),
         unselectedIconTheme: IconThemeData(
           color: ColorConstants.zotfeastBrownLight,
-          size: 24.0,
+          size: 28.0,
         ),
       ),
 
