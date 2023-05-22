@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "138523150733",
+    "project_id": "zotfeast",
+    "storage_bucket": "zotfeast.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138523150733:android:bfdcde006fa3ec6e5dd5c4",
+        "android_client_info": {
+          "package_name": "com.mealgenies.zotfeast"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "138523150733-kpsmru91tgm4g1j3uh41l15lo2upmm70.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQhqELpFjD56g7E2bmyIEsnm1Li3LAsfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "138523150733-kpsmru91tgm4g1j3uh41l15lo2upmm70.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "138523150733-8qpcm0qmdi59t8dh96ucj6l8tu1iobuf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.zotfeast"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
