@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zotfeast/config/color_constants.dart';
-import 'package:zotfeast/pages/home_screen.dart';
-import 'package:zotfeast/pages/recipe_list_screen.dart';
-import 'package:zotfeast/pages/user_profile_screen.dart';
-import 'package:zotfeast/pages/map_screen.dart';
+import 'package:zotfeast/screens/home/home_screen.dart';
+import 'package:zotfeast/screens/home/recipe_list_screen.dart';
+import 'package:zotfeast/screens/home/user_profile_screen.dart';
+import 'package:zotfeast/screens/home/map_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

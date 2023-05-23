@@ -32,6 +32,14 @@ migrate_working_dir/
 .pub/
 /build/
 
+# exclude API keys from version control
+*.env
+env.g.dart
+lib/firebase_options.dart
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+
 # Symbolication related
 app.*.symbols
 

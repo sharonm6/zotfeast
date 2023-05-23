@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zotfeast/config/color_constants.dart';
 import 'package:zotfeast/components/rounded_rectangle.dart';
+import 'package:zotfeast/services/auth.dart';
 
 class UserProfileScreen extends StatefulWidget {
   UserProfileScreen({super.key});
@@ -10,6 +11,8 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  final AuthService _auth = AuthService();
+
   bool _checkbox = false;
   bool _checkbox_hascar = false;
   bool _checkbox_darkmode = false;
@@ -245,6 +248,25 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ]),
                 ),
               ),
+              SizedBox(height: 20.0),
+              Center(
+                child: TextButton(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 5.0, horizontal: 10.0),
+                    child: Text(
+                      'Logout',
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                  ),
+                  onPressed: () async {
+                    await _auth.signOut();
+                  },
+                  style: TextButton.styleFrom(
+                      backgroundColor: ColorConstants.zotfeastBrown),
+                ),
+              ),
+              SizedBox(height: 20.0)
             ]));
   }
 }
