@@ -51,7 +51,7 @@ class ThemeConfig {
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0),
-                      side: const BorderSide(color: Colors.red))),
+                      side: const BorderSide(color: Colors.black))),
               padding: MaterialStateProperty.all<EdgeInsets>(
                   const EdgeInsets.all(16)))),
       primaryColor: accentColor,
