@@ -32,7 +32,8 @@ class _HomeState extends State<Home> {
               HomeScreen(user: userInfo),
               const RecipeListScreen(),
               const MapScreen(),
-              UserProfileScreen(user: userInfo),
+              UserProfileScreen(
+                  user: userInfo, dbService: widget.databaseService),
             ];
             return Scaffold(
                 backgroundColor: ColorConstants.zotfeastBrownLight,

@@ -13,3 +13,15 @@ final textInputDecoration = InputDecoration(
     borderSide: BorderSide(color: ColorConstants.zotfeastGreen, width: 2.0),
   ),
 );
+
+final simpleInputDecoration = InputDecoration(
+  filled: false,
+  border: InputBorder.none,
+  contentPadding: EdgeInsets.zero,
+  enabledBorder: UnderlineInputBorder(
+    borderSide: BorderSide(color: Colors.transparent),
+  ),
+  focusedBorder: UnderlineInputBorder(
+    borderSide: BorderSide(color: Colors.transparent),
+  ),
+);
