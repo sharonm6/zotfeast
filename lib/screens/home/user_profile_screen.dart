@@ -24,13 +24,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final nameController = TextEditingController();
   late bool _hascar;
 
-  bool _checkbox = false;
-  bool _checkbox_darkmode = false;
-  bool _checkbox_savecookies = false;
-  bool _checkbox_savelocalstorage = false;
-  bool _checkbox_geolocation = false;
-  bool _checkbox_vegetarian = false;
-  bool _checkbox_vegan = false;
+  //late bool _checkbox;
+  late bool _isDarkMode;
+  late bool _cookiesSaved;
+  late bool _localStorageSaved;
+  late bool _geolocationEnabled;
+  late bool _isVegetarian;
+  late bool _isVegan;
 
   late User _user;
   @override
@@ -38,6 +38,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _user = widget._user;
     nameController.text = _user.name;
     _hascar = widget._user.hasCar;
+    _isDarkMode = widget._user.isDarkMode;
+    _cookiesSaved = widget._user.cookiesSaved;
+    _localStorageSaved = widget._user.localStorageSaved;
+    _geolocationEnabled = widget._user.geolocationEnabled;
+    _isVegetarian = widget._user.isVegetarian;
+    _isVegan = widget._user.isVegan;
 
     super.initState();
   }
@@ -182,7 +188,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         onPressed: () async => {
                               await DatabaseService(uid: _user.uid)
                                   .updateUserData(_user.name, _user.email,
-                                      hasCar: _hascar)
+                                      hasCar: _hascar, isDarkMode: _isDarkMode, cookiesSaved: _cookiesSaved, localStorageSaved: _localStorageSaved, geolocationEnabled: _geolocationEnabled,isVegetarian: _isVegetarian,isVegan: _isVegan)
                             }),
                     CheckboxListTile(
                         title: Text('Has Car',
@@ -205,12 +211,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               color: Color(0xFFF8F2ED),
                               //fontFamily: 'Lato'),
                             )),
-                        value: _checkbox_darkmode,
+                        value: _isDarkMode,
                         activeColor: Color(0xFFD2C3B3),
                         checkColor: Color(0xFFF8F2ED),
                         onChanged: (value) {
                           setState(() {
-                            _checkbox_darkmode = !_checkbox_darkmode;
+                            _isDarkMode = !_isDarkMode;
                           });
                         }),
                     CheckboxListTile(
@@ -220,12 +226,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               color: Color(0xFFF8F2ED),
                               //fontFamily: 'Lato'),
                             )),
-                        value: _checkbox_savecookies,
+                        value: _cookiesSaved,
                         activeColor: Color(0xFFD2C3B3),
                         checkColor: Color(0xFFF8F2ED),
                         onChanged: (value) {
                           setState(() {
-                            _checkbox_savecookies = !_checkbox_savecookies;
+                            _cookiesSaved = !_cookiesSaved;
                           });
                         }),
                     CheckboxListTile(
@@ -235,13 +241,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               color: Color(0xFFF8F2ED),
                               //fontFamily: 'Lato'),
                             )),
-                        value: _checkbox_savelocalstorage,
+                        value: _localStorageSaved,
                         activeColor: Color(0xFFD2C3B3),
                         checkColor: Color(0xFFF8F2ED),
                         onChanged: (value) {
                           setState(() {
-                            _checkbox_savelocalstorage =
-                                !_checkbox_savelocalstorage;
+                            _localStorageSaved =
+                                !_localStorageSaved;
                           });
                         }),
                     CheckboxListTile(
@@ -251,12 +257,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               color: Color(0xFFF8F2ED),
                               //fontFamily: 'Lato'),
                             )),
-                        value: _checkbox_geolocation,
+                        value: _geolocationEnabled,
                         activeColor: Color(0xFFD2C3B3),
                         checkColor: Color(0xFFF8F2ED),
                         onChanged: (value) {
                           setState(() {
-                            _checkbox_geolocation = !_checkbox_geolocation;
+                            _geolocationEnabled = !_geolocationEnabled;
                           });
                         }),
                     CheckboxListTile(
@@ -266,12 +272,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               color: Color(0xFFF8F2ED),
                               //fontFamily: 'Lato'),
                             )),
-                        value: _checkbox_vegetarian,
+                        value: _isVegetarian,
                         activeColor: Color(0xFFD2C3B3),
                         checkColor: Color(0xFFF8F2ED),
                         onChanged: (value) {
                           setState(() {
-                            _checkbox_vegetarian = !_checkbox_vegetarian;
+                            _isVegetarian = !_isVegetarian;
                           });
                         }),
                     CheckboxListTile(
@@ -281,12 +287,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               color: Color(0xFFF8F2ED),
                               //fontFamily: 'Lato'),
                             )),
-                        value: _checkbox_vegan,
+                        value: _isVegan,
                         activeColor: Color(0xFFD2C3B3),
                         checkColor: Color(0xFFF8F2ED),
                         onChanged: (value) {
                           setState(() {
-                            _checkbox_vegan = !_checkbox_vegan;
+                            _isVegan = !_isVegan;
                           });
                         }),
                   ]),
