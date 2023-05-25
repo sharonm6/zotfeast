@@ -1,4 +1,3 @@
-import 'package:zotfeast/models/recipe.dart';
 import 'package:zotfeast/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -7,43 +6,27 @@ class DatabaseService {
   DatabaseService({this.uid = ''});
 
   // collection reference
-  final CollectionReference brewCollection =
-      FirebaseFirestore.instance.collection('recipes');
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
 
-  Future<void> updateUserData(String sugars, String name, int strength) async {
-    return await brewCollection.doc(uid).set({
-      'sugars': sugars,
+  Future<void> updateUserData(String name, String email) async {
+    return await userCollection.doc(uid).set({
       'name': name,
-      'strength': strength,
+      'email': email,
     });
   }
 
-  // recipe list from snapshot
-  List<Recipe> _brewListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
-
-      return Recipe(
-          name: data?['name'] ?? '',
-          servings: data?['servings'] ?? 0,
-          calories: data?['calories'] ?? '0');
-    }).toList();
-  }
-
   // user data from snapshots
-  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+  User _userFromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
 
-    return UserData(uid: uid, name: data?['name']);
+    return User(uid: uid, name: data?['name'], email: data?['email']);
   }
 
-  // get recipe stream
-  Stream<List<Recipe>> get brews {
-    return brewCollection.snapshots().map(_brewListFromSnapshot);
-  }
-
-  // get user doc stream
-  Stream<UserData> get userData {
-    return brewCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
+  Stream<User> get user {
+    return userCollection
+        .doc(uid)
+        .snapshots()
+        .map((snapshot) => _userFromSnapshot(snapshot));
   }
 }

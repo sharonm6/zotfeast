@@ -1,12 +1,26 @@
+// class User {
+//   final String uid;
+
+//   User({required this.uid});
+// }
+
 class User {
   final String uid;
+  String name;
+  String email;
 
-  User({required this.uid});
-}
+  User({required this.uid, this.name = '', this.email = ''});
 
-class UserData {
-  final String uid;
-  final String name;
+  User.fromData(Map<String, dynamic> data)
+      : uid = data['uid'],
+        name = data['name'] ?? '',
+        email = data['email'] ?? '';
 
-  UserData({required this.uid, this.name = ''});
+  Map<String, dynamic> toJson() {
+    return {
+      'uid': uid,
+      'name': name,
+      'email': email,
+    };
+  }
 }

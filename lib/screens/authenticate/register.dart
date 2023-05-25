@@ -19,9 +19,9 @@ class _RegisterState extends State<Register> {
   String error = '';
   bool loading = false;
 
-  // text field state
-  String email = '';
-  String password = '';
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +41,20 @@ class _RegisterState extends State<Register> {
                     SizedBox(height: 40.0),
                     TextFormField(
                       decoration:
-                          textInputDecoration.copyWith(hintText: 'Your email'),
+                          textInputDecoration.copyWith(hintText: 'Name'),
+                      validator: (val) => val != null && val.isEmpty
+                          ? 'Please enter a valid name'
+                          : null,
+                      controller: nameController,
+                    ),
+                    SizedBox(height: 20.0),
+                    TextFormField(
+                      decoration:
+                          textInputDecoration.copyWith(hintText: 'Email'),
                       validator: (val) => val != null && val.isEmpty
                           ? 'Please enter a valid email'
                           : null,
-                      onChanged: (val) {
-                        setState(() => email = val);
-                      },
+                      controller: emailController,
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
@@ -57,9 +64,7 @@ class _RegisterState extends State<Register> {
                       validator: (val) => val != null && val.length < 6
                           ? 'Your password must be 6 or more characters long'
                           : null,
-                      onChanged: (val) {
-                        setState(() => password = val);
-                      },
+                      controller: passwordController,
                     ),
                     SizedBox(height: 30.0),
                     TextButton(
@@ -75,10 +80,16 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            if (!mounted) {
+                              return;
+                            }
                             setState(() => loading = true);
-                            dynamic result = await _auth
-                                .registerWithEmailAndPassword(email, password);
+                            dynamic result =
+                                await _auth.registerWithEmailAndPassword(
+                                    nameController.text,
+                                    emailController.text,
+                                    passwordController.text);
                             if (result is firebase_auth.FirebaseAuthException) {
                               if (result.code == 'email-already-in-use') {
                                 setState(() {
@@ -87,6 +98,9 @@ class _RegisterState extends State<Register> {
                                       'Email is already in use by another account.';
                                 });
                               } else {
+                                if (!mounted) {
+                                  return;
+                                }
                                 setState(() {
                                   loading = false;
                                   error =
@@ -94,6 +108,9 @@ class _RegisterState extends State<Register> {
                                 });
                               }
                             } else {
+                              if (!mounted) {
+                                return;
+                              }
                               setState(() {
                                 loading = false;
                                 error =
