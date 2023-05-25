@@ -163,11 +163,11 @@ class ThemeConfig {
           fontWeight: FontWeight.w400,
         ),
       ),
-      // textSelectionTheme: TextSelectionThemeData(
-      //   cursorColor: accentColor,
-      //   selectionColor: accentColor,
-      //   selectionHandleColor: accentColor,
-      // ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: accentColor,
+        selectionColor: accentColor,
+        selectionHandleColor: accentColor,
+      ),
       colorScheme: ColorScheme.fromSwatch()
           .copyWith(secondary: accentColor, brightness: brightness)
           .copyWith(background: background)

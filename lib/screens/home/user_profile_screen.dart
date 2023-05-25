@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:zotfeast/config/color_constants.dart';
+import 'package:zotfeast/config/constants.dart';
 import 'package:zotfeast/components/rounded_rectangle.dart';
 import 'package:zotfeast/services/auth.dart';
+import 'package:zotfeast/models/user.dart';
+import 'package:zotfeast/services/database.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  UserProfileScreen({super.key});
+  UserProfileScreen(
+      {Key? key, required User user, required DatabaseService dbService})
+      : _user = user,
+        super(key: key);
+
+  final User _user;
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -13,14 +21,26 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   final AuthService _auth = AuthService();
 
+  final nameController = TextEditingController();
+  late bool _hascar;
+
   bool _checkbox = false;
-  bool _checkbox_hascar = false;
   bool _checkbox_darkmode = false;
   bool _checkbox_savecookies = false;
   bool _checkbox_savelocalstorage = false;
   bool _checkbox_geolocation = false;
   bool _checkbox_vegetarian = false;
   bool _checkbox_vegan = false;
+
+  late User _user;
+  @override
+  void initState() {
+    _user = widget._user;
+    nameController.text = _user.name;
+    _hascar = widget._user.hasCar;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,28 +84,43 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   borderRadiusAmt: 15.0,
                   containerColor: ColorConstants.zotfeastBrown,
                   paddingInset: const EdgeInsets.all(8.0),
-                  childWidget: Row(children: [
-                    Text("Alice Johnson",
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          color: Color(0xFFF8F2ED),
-                          //fontFamily: 'Lato'
-                        ),
-                        textAlign: TextAlign.left),
-                    InkWell(
-                      onTap: () {},
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 230),
-                        child: Icon(
-                          Icons.mode_edit_outline_outlined,
-                          size: 25,
-                          color: Color(0xFFF8F2ED),
-                        ),
-                      ),
-                    )
-                  ]),
+                  childWidget: TextFormField(
+                    decoration: simpleInputDecoration.copyWith(
+                      hintText: 'Name',
+                    ),
+                    style: const TextStyle(
+                      fontSize: 22.0,
+                      color: Color(0xFFF8F2ED),
+                    ),
+                    validator: (val) => val != null && val.isEmpty
+                        ? 'Please enter a valid name'
+                        : null,
+                    controller: nameController,
+                  ),
+                  // InkWell(
+                  //   onTap: () {},
+                  //   child: Padding(
+                  //     padding: EdgeInsets.only(left: 230),
+                  //     child: Icon(
+                  //       Icons.mode_edit_outline_outlined,
+                  //       size: 25,
+                  //       color: Color(0xFFF8F2ED),
+                  //     ),
+                  //   ),
+                  // )
+                  // ]),
                 ),
               ),
+              SizedBox(height: 5.0),
+              TextButton(
+                  child: Text(
+                    'Confirm Changes',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                  onPressed: () async => {
+                        await DatabaseService(uid: _user.uid)
+                            .updateUserData(nameController.text, _user.email)
+                      }),
               SizedBox(height: 10.0),
               Center(
                 child: Text("Import Schedule",
@@ -139,19 +174,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   containerColor: ColorConstants.zotfeastBrown,
                   paddingInset: const EdgeInsets.all(8.0),
                   childWidget: Column(children: [
+                    TextButton(
+                        child: Text(
+                          'Confirm Changes',
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                        onPressed: () async => {
+                              await DatabaseService(uid: _user.uid)
+                                  .updateUserData(_user.name, _user.email,
+                                      hasCar: _hascar)
+                            }),
                     CheckboxListTile(
                         title: Text('Has Car',
                             style: TextStyle(
                               fontSize: 22,
                               color: Color(0xFFF8F2ED),
-                              //fontFamily: 'Lato'),
                             )),
-                        value: _checkbox_hascar,
+                        value: _hascar,
                         activeColor: Color(0xFFD2C3B3),
                         checkColor: Color(0xFFF8F2ED),
                         onChanged: (value) {
                           setState(() {
-                            _checkbox_hascar = !_checkbox_hascar;
+                            _hascar = !_hascar;
                           });
                         }),
                     CheckboxListTile(

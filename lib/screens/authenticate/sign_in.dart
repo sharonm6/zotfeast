@@ -19,9 +19,8 @@ class _SignInState extends State<SignIn> {
   String error = '';
   bool loading = false;
 
-  // text field state
-  String email = '';
-  String password = '';
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +44,7 @@ class _SignInState extends State<SignIn> {
                       validator: (val) => val != null && val.isEmpty
                           ? 'Please enter a valid email'
                           : null,
-                      onChanged: (val) {
-                        setState(() => email = val);
-                      },
+                      controller: emailController,
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
@@ -57,9 +54,7 @@ class _SignInState extends State<SignIn> {
                       validator: (val) => val != null && val.length < 6
                           ? 'Please enter a valid password'
                           : null,
-                      onChanged: (val) {
-                        setState(() => password = val);
-                      },
+                      controller: passwordController,
                     ),
                     SizedBox(height: 30.0),
                     TextButton(
@@ -75,11 +70,19 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            if (!mounted) {
+                              return;
+                            }
                             setState(() => loading = true);
-                            dynamic result = await _auth
-                                .signInWithEmailAndPassword(email, password);
+                            dynamic result =
+                                await _auth.signInWithEmailAndPassword(
+                                    emailController.text,
+                                    passwordController.text);
                             if (result is firebase_auth.FirebaseAuthException) {
+                              if (!mounted) {
+                                return;
+                              }
                               setState(() {
                                 loading = false;
                                 error =

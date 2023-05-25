@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:zotfeast/config/theme_data.dart';
 import 'package:provider/provider.dart';
 import 'package:zotfeast/models/user.dart';
+import 'package:zotfeast/services/database.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,14 +17,24 @@ void main() async {
 class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User?>.value(
-      value: AuthService().user,
-      initialData: User(uid: ''),
+    return MultiProvider(
+      providers: [
+        StreamProvider<User?>.value(
+          value: AuthService().user,
+          initialData: User(
+            uid: '',
+          ),
+          catchError: (context, error) {
+            print('Error occurred: $error ');
+            return User(uid: ''); // Provide a fallback user value
+          },
+        ),
+      ],
       child: MaterialApp(
-        home: Wrapper(),
-        theme: ThemeConfig.lightTheme,
-        themeMode: ThemeMode.light,
-      ),
+          home: Wrapper(),
+          theme: ThemeConfig.lightTheme,
+          themeMode: ThemeMode.light,
+          debugShowCheckedModeBanner: false),
     );
   }
 }
