@@ -22,9 +22,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final AuthService _auth = AuthService();
 
   final nameController = TextEditingController();
+  late bool _hascar;
 
   bool _checkbox = false;
-  bool _checkbox_hascar = false;
   bool _checkbox_darkmode = false;
   bool _checkbox_savecookies = false;
   bool _checkbox_savelocalstorage = false;
@@ -37,6 +37,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   void initState() {
     _user = widget._user;
     nameController.text = _user.name;
+    _hascar = widget._user.hasCar;
 
     super.initState();
   }
@@ -119,12 +120,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   onPressed: () async => {
                         await DatabaseService(uid: _user.uid)
                             .updateUserData(nameController.text, _user.email)
-                      }
-//                     print(nameController.text);
-//                       await DatabaseService(uid: user!.uid).updateUserData(name, email);
-
-// }),
-                  ),
+                      }),
               SizedBox(height: 10.0),
               Center(
                 child: Text("Import Schedule",
@@ -178,19 +174,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   containerColor: ColorConstants.zotfeastBrown,
                   paddingInset: const EdgeInsets.all(8.0),
                   childWidget: Column(children: [
+                    TextButton(
+                        child: Text(
+                          'Confirm Changes',
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                        onPressed: () async => {
+                              await DatabaseService(uid: _user.uid)
+                                  .updateUserData(_user.name, _user.email,
+                                      hasCar: _hascar)
+                            }),
                     CheckboxListTile(
                         title: Text('Has Car',
                             style: TextStyle(
                               fontSize: 22,
                               color: Color(0xFFF8F2ED),
-                              //fontFamily: 'Lato'),
                             )),
-                        value: _checkbox_hascar,
+                        value: _hascar,
                         activeColor: Color(0xFFD2C3B3),
                         checkColor: Color(0xFFF8F2ED),
                         onChanged: (value) {
                           setState(() {
-                            _checkbox_hascar = !_checkbox_hascar;
+                            _hascar = !_hascar;
                           });
                         }),
                     CheckboxListTile(

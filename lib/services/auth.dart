@@ -8,7 +8,7 @@ class AuthService {
   // create user obj based on firebase user
   User? _userFromFirebaseUser(firebase_auth.User? user,
       {String name = '', String email = ''}) {
-    return User(uid: user?.uid ?? '', name: name, email: email);
+    return User(uid: user?.uid ?? '', name: name, email: email, hasCar: false);
   }
 
   // auth change user stream
