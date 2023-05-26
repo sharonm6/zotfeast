@@ -7,6 +7,7 @@ import 'package:zotfeast/config/theme_data.dart';
 import 'package:provider/provider.dart';
 import 'package:zotfeast/models/user.dart';
 import 'package:zotfeast/services/database.dart';
+import 'package:zotfeast/models/recipe.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,14 @@ class Main extends StatelessWidget {
             return User(uid: ''); // Provide a fallback user value
           },
         ),
+        StreamProvider<List<Recipe>>.value(
+          value: DatabaseService().recipe,
+          initialData: [Recipe()],
+          catchError: (context, error) {
+            print('Error occurred: $error ');
+            return [Recipe()]; // Provide a fallback user value
+          },
+        )
       ],
       child: MaterialApp(
           home: Wrapper(),

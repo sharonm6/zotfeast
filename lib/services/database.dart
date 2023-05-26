@@ -1,13 +1,19 @@
 import 'package:zotfeast/models/user.dart';
+import 'package:zotfeast/models/recipe.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
   final String uid;
   DatabaseService({this.uid = ''});
 
-  // collection reference
+  // collection references
+
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
+  final CollectionReference recipeCollection =
+      FirebaseFirestore.instance.collection('recipes');
+
+  // Users
 
   Future<void> updateUserData(String name, String email,
       {bool hasCar = false}) async {
@@ -16,7 +22,6 @@ class DatabaseService {
         .set({'name': name, 'email': email, 'hasCar': hasCar});
   }
 
-  // user data from snapshots
   User _userFromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
 
@@ -32,5 +37,26 @@ class DatabaseService {
         .doc(uid)
         .snapshots()
         .map((snapshot) => _userFromSnapshot(snapshot));
+  }
+
+  // Recipes
+
+  List<Recipe> _recipeFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+      return Recipe(
+          name: data?['name'],
+          cookTime: data?['cookTime'],
+          price: data?['price'],
+          servings: data?['servings'],
+          calories: data?['calories'],
+          ingredients: List<String>.from(data?['ingredients']),
+          instructions: List<String>.from(data?['instructions']));
+    }).toList();
+  }
+
+  Stream<List<Recipe>> get recipe {
+    return recipeCollection.snapshots().map(_recipeFromSnapshot);
   }
 }
