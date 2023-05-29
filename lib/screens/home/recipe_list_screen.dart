@@ -8,6 +8,7 @@ import 'package:zotfeast/screens/home/map_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:zotfeast/models/user.dart';
 import 'package:zotfeast/services/database.dart';
+import 'package:zotfeast/components/recipe_tile.dart';
 
 class RecipeListScreen extends StatefulWidget {
   const RecipeListScreen({super.key});
@@ -38,6 +39,27 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
             const SizedBox(width: 10),
             Image.asset('food_motif.png'),
           ],
+        ),
+        RecipeTile(
+          recipeName: 'Vodka Pasta',
+          recipeImage: 'food_motif.png',
+          recipePortion: '1 portion',
+          recipeCalories: 600,
+        ),
+        // add spacing
+        const SizedBox(height: 10),
+        RecipeTile(
+          recipeName: 'Vodka Pasta',
+          recipeImage: 'food_motif.png',
+          recipePortion: '1 portion',
+          recipeCalories: 600,
+        ),
+        const SizedBox(height: 10),
+        RecipeTile(
+          recipeName: 'Vodka Pasta',
+          recipeImage: 'food_motif.png',
+          recipePortion: '1 portion',
+          recipeCalories: 600,
         ),
       ]),
     );
