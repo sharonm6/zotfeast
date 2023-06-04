@@ -106,9 +106,7 @@ def generate_encoding(ics_file : str, day : datetime):
             print(event.get("SUMMARY"))
             interval_encoding = get_day_interval_encoding(event, interval_encoding)
 
-    print('Final interval encoding:', interval_encoding)
-
-    return 'DONE'
+    return interval_encoding
     
 if __name__ == "__main__":
     # with open('data/schedule_s.ics', "rb") as f:
