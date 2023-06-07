@@ -30,6 +30,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  file_picker: ^4.2.0
+  syncfusion_flutter_calendar: ^21.2.6
+  path_provider: ^2.0.6
+  path: ^1.8.0
+  icalendar_parser: any
+
 
 
   # The following adds the Cupertino Icons font to your application.

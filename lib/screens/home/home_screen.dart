@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _user = widget._user;
-
     super.initState();
   }
 
@@ -40,40 +39,89 @@ class _HomeScreenState extends State<HomeScreen> {
           "Upcoming Task",
           style: Theme.of(context).textTheme.titleLarge,
         ),
+        SizedBox(height:10),
+
         RoundedRectangle(
           borderRadiusAmt: 10.0,
           containerColor: ColorConstants.zotfeastBrown,
           paddingInset: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-          childWidget: Column(children: [
-            Text("Buy Groceries @ 10AM",
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center),
-            Row(
+          childWidget: Column(
+            children: [
+            Text(
+              "Buy Groceries @ 10AM",
+                style: TextStyle(fontSize: 23.0,
+                color: Color(0xFF7C924E)
+                ),
+                textAlign: TextAlign.center,
+            ),
+            SizedBox(height:5),
+            Center(
+              child:Row(
+                mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RoundedRectangle(
                   borderRadiusAmt: 10.0,
                   containerColor: ColorConstants.zotfeastBrownLight,
                   paddingInset: const EdgeInsets.fromLTRB(14, 11, 14, 11),
-                  childWidget: Text("More Info",
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          color: ColorConstants.zotfeastBrownDark),
-                      textAlign: TextAlign.center),
+                  childWidget: TextButton(
+                    child: 
+                    Text(
+                      'More Info',
+                    style: TextStyle(fontSize: 15.0,
+                    color: ColorConstants.zotfeastBrownDark,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                    onPressed: () async => {
+                              //await _auth.signOut();
+                            }
+                  ),      
                 ),
                 const SizedBox(width: 36.0),
                 RoundedRectangle(
                     borderRadiusAmt: 10.0,
                     containerColor: ColorConstants.zotfeastBrownLight,
                     paddingInset: const EdgeInsets.fromLTRB(14, 11, 14, 11),
-                    childWidget: Text("R | Y",
-                        style: TextStyle(
+                    childWidget: Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                          },
+                        child: Icon(
+                          Icons.refresh,
+                          size: 23,
+                          color: Color(0xFFD2C3B3),
+                        ),  
+                        ),
+                        SizedBox(width: 8.0),
+                        Text(
+                          '|',
+                          style: TextStyle(
                             fontSize: 15.0,
-                            color: ColorConstants.zotfeastBrownDark),
-                        textAlign: TextAlign.center)),
+                            color: ColorConstants.zotfeastBrownDark,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(width: 8.0),
+                        InkWell(
+                          onTap: () {
+                          },
+                        child: Icon(
+                          Icons.check,
+                          size: 23,
+                          color: Color(0xFFD2C3B3),
+                        ),  
+                        ),
+                      ]
+                    )        
+                ),
               ],
+            ),
             )
           ]),
         ),
+
+
         const SizedBox(height: 46.0),
         Text(
           "Your Schedule Today",

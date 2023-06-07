@@ -1,10 +1,19 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:zotfeast/config/color_constants.dart';
 import 'package:zotfeast/config/constants.dart';
 import 'package:zotfeast/components/rounded_rectangle.dart';
 import 'package:zotfeast/services/auth.dart';
 import 'package:zotfeast/models/user.dart';
 import 'package:zotfeast/services/database.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:icalendar_parser/icalendar_parser.dart';
 
 class UserProfileScreen extends StatefulWidget {
   UserProfileScreen(
@@ -18,13 +27,27 @@ class UserProfileScreen extends StatefulWidget {
   State<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
+Future<void> sendICSFileToBackend(File file) async {
+  final url = Uri.parse('https://localhost:5000');
+    var request = http.MultipartRequest('POST',url);
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        '${User}-file.ics',
+        file.path,
+        contentType: MediaType('text','calendar'),
+      )
+    );
+    var response = await request.send();
+}
+
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  File? selectedFile;
+
   final AuthService _auth = AuthService();
 
   final nameController = TextEditingController();
   late bool _hascar;
 
-  //late bool _checkbox;
   late bool _isDarkMode;
   late bool _cookiesSaved;
   late bool _localStorageSaved;
@@ -46,7 +69,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _isVegan = widget._user.isVegan;
 
     super.initState();
-  }
+  } 
+
 
   @override
   Widget build(BuildContext context) {
@@ -149,16 +173,26 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           color: Color(0xFFF8F2ED),
                           //fontFamily: 'Lato'
                         ),
-                        textAlign: TextAlign.left),
+                        textAlign: TextAlign.left),  
                     InkWell(
-                      onTap: () {},
-                      child: Padding(
+                        onTap: () async {
+                        final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['ics']);
+                        if (result != null) {
+                          setState(() {
+                            selectedFile = File(result.files.single.path!);
+                          });
+                          sendICSFileToBackend(selectedFile!);
+                        }
+                      },
+                      child:
+                      Padding(
                         padding: EdgeInsets.only(left: 265),
                         child: Icon(
                           Icons.download,
                           size: 25,
                           color: Color(0xFFF8F2ED),
                         ),
+                        
                       ),
                     )
                   ]),
@@ -318,5 +352,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               SizedBox(height: 20.0)
             ]));
+  }
+  
+  String _generateUniqueFileName(File file) {
+    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    String extension = path.extension(file.path);
+    return 'file_$timestamp$extension';
   }
 }
