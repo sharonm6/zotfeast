@@ -5,13 +5,13 @@ import 'package:zotfeast/components/rounded_rectangle.dart';
 class RecipeTile extends StatelessWidget {
   final String recipeName;
   final String recipeImage;
-  final String recipePortion;
+  final int recipePortion;
   final int recipeCalories;
 
   const RecipeTile({
     this.recipeName = "Recipe Name",
     this.recipeImage = "food_motif.png",
-    this.recipePortion = "1 portion",
+    this.recipePortion = 0,
     this.recipeCalories = 0,
   });
 
@@ -32,7 +32,7 @@ class RecipeTile extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 Text(
-                  recipePortion,
+                  recipePortion.toString() + " servings",
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 // recipe calories

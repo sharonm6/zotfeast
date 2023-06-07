@@ -23,64 +23,38 @@ class RecipeListScreen extends StatefulWidget {
 class _RecipeListScreenState extends State<RecipeListScreen> {
   @override
   Widget build(BuildContext context) {
+    final recipes = Provider.of<List<Recipe>>(context);
     return Padding(
       padding: const EdgeInsets.all(30),
       child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Flexible(
-              child: FittedBox(
-                fit: BoxFit.fitHeight,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Here Are\nYour Recipes!',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Image.asset('food_motif.png'),
-          ],
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Here Are\nYour Recipes!",
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
         ),
+        SizedBox(height:15),
+        Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child:ListView.builder(
+          itemCount:recipes.length,
+          itemBuilder: (context,index) {
+            return Column(
+              children: [
         RecipeTile(
-          recipeName: 'Vodka Pasta',
+          recipeName: recipes[index].name,
           recipeImage: 'food_motif.png',
-          recipePortion: '1 portion',
-          recipeCalories: 600,
-        ),
-        // add spacing
-        const SizedBox(height: 10),
-        RecipeTile(
-          recipeName: 'Vodka Pasta',
-          recipeImage: 'food_motif.png',
-          recipePortion: '1 portion',
-          recipeCalories: 600,
-        ),
-        const SizedBox(height: 10),
-        RecipeTile(
-          recipeName: 'Vodka Pasta',
-          recipeImage: 'food_motif.png',
-          recipePortion: '1 portion',
-          recipeCalories: 600,
-        ),
+          recipePortion: recipes[index].servings,
+          recipeCalories: recipes[index].calories,
+          ),
+        SizedBox(height:25.0),
+              ],
+            );
+          },
+        ))
       ]),
     );
-//     final recipes = Provider.of<List<Recipe>>(context);
-
-//     return Container(
-//         height: MediaQuery.of(context).size.height,
-//         width: MediaQuery.of(context).size.width,
-//         child: ListView.builder(
-//           itemCount: recipes.length,
-//           itemBuilder: (context, index) {
-//             return Column(
-//               children: [
-//                 RecipeScreen(recipe: recipes[index]),
-//                 SizedBox(height: 50.0),
-//               ],
-//             );
-//           },
-//         ));
   }
 }
