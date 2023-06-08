@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:zotfeast/config/color_constants.dart';
 import 'package:zotfeast/components/rounded_rectangle.dart';
 import 'package:zotfeast/models/user.dart';
+import 'package:zotfeast/screens/home/recipe_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:zotfeast/models/recipe.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key, required User user})
@@ -24,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final recipes = Provider.of<List<Recipe>>(context);
     return Padding(
       padding: const EdgeInsets.all(30),
       child: Column(children: [
@@ -73,7 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     textAlign: TextAlign.center,
                   ),
                     onPressed: () async => {
-                              //await _auth.signOut();
+                              Navigator.push(
+                            context,
+                        MaterialPageRoute(builder: (context) => RecipeScreen(recipe: recipes[0],)),
+            )
                             }
                   ),      
                 ),

@@ -3,6 +3,7 @@ import 'package:zotfeast/components/loading.dart';
 import 'package:zotfeast/config/color_constants.dart';
 import 'package:zotfeast/screens/home/home_screen.dart';
 import 'package:zotfeast/screens/home/recipe_list_screen.dart';
+import 'package:zotfeast/screens/home/recipe_screen.dart';
 import 'package:zotfeast/screens/home/user_profile_screen.dart';
 import 'package:zotfeast/screens/home/map_screen.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,7 @@ class _HomeState extends State<Home> {
             List<Widget> pages = [
               HomeScreen(user: userInfo),
               const RecipeListScreen(),
+              // const RecipeScreen(recipe: recipe),
               const MapScreen(),
               UserProfileScreen(
                   user: userInfo, dbService: widget.databaseService),
