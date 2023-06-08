@@ -31,16 +31,15 @@ def generate_response(schedule, time, dist, task, duration):
     duration /= .5
     dist_time = dist # dist_time = dist * 15 min * 2 = dist * 30 min = dist
     if schedule[time] == '1':
-        if random.random() < 0.8:
+        if random.random() < 0.9:
             return 0
     elif '1' in schedule[time : int(time + duration + dist_time)]:
-        if random.random() < 0.8:
+        if random.random() < 0.9:
             return 0
-    elif time > 24:
-        if random.random() < 0.6:
-            return 0
-    elif random.random() < 0.3:
-            return 0
+    # if time > 28 and random.random() < 0.7:
+    #     return 0
+    if random.random() < 0.3:
+        return 0
     return 1
 
 def create_fake_data(num):
@@ -63,3 +62,6 @@ def save_data(df, filename, dir='input'):
 if  __name__ == "__main__":
     fData = create_fake_data(10000)
     save_data(fData, "input.csv")
+
+    # r = generate_response("0110010110011000100101111110000100", 13, 0.5, 0, 1.5)
+    # print(f'response: {r}')
