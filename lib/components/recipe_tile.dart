@@ -29,16 +29,26 @@ class RecipeTile extends StatelessWidget {
               children: [
                 Text(
                   recipeName,
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: TextStyle(
+                    fontSize: 23,
+                    color: Color(0xFFF8F2ED),
+                    //Theme.of(context).textTheme.headlineSmall,
+                ),
                 ),
                 Text(
                   recipePortion.toString() + " servings",
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Color(0xFFF8F2ED),
+                  ),
                 ),
                 // recipe calories
                 Text(
                   recipeCalories.toString() + " calories",
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Color(0xFFF8F2ED),
+                  ),
                 ),
               ],
             ),

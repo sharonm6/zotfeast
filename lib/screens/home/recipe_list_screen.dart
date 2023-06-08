@@ -5,6 +5,8 @@ import 'package:zotfeast/config/color_constants.dart';
 import 'package:zotfeast/screens/home/home_screen.dart';
 import 'package:zotfeast/screens/home/user_profile_screen.dart';
 import 'package:zotfeast/screens/home/map_screen.dart';
+import 'package:zotfeast/screens/home/recipe_screen.dart';
+
 import 'package:provider/provider.dart';
 import 'package:zotfeast/models/user.dart';
 import 'package:zotfeast/services/database.dart';
@@ -35,6 +37,14 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
           ),
         ),
         SizedBox(height:15),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RecipeScreen(recipe: recipes[0],)),
+            );
+          },
+        child:  
         Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -49,12 +59,15 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
           recipePortion: recipes[index].servings,
           recipeCalories: recipes[index].calories,
           ),
+
         SizedBox(height:25.0),
               ],
             );
           },
-        ))
+        )),
+        ),
       ]),
     );
   }
 }
+
