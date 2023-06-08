@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import random
 
@@ -32,13 +33,13 @@ def generate_response(schedule, time, dist, task, duration):
     if schedule[time] == '1':
         if random.random() < 0.8:
             return 0
-    elif '1' in schedule[time : int(time + duration)]:
-        if random.random() < 0.8:
-            return 0  
     elif '1' in schedule[time : int(time + duration + dist_time)]:
         if random.random() < 0.8:
             return 0
-    elif random.random() < 0.4:
+    elif time > 24:
+        if random.random() < 0.6:
+            return 0
+    elif random.random() < 0.3:
             return 0
     return 1
 
@@ -54,9 +55,11 @@ def create_fake_data(num):
         df.loc[i] = [conv_schedule_to_str(schedule), time, dist, task, duration, response]
     return df
 
-def save_data(df, filename):
-    df.to_csv(filename, index=False)
+def save_data(df, filename, dir='input'):
+    if os.path.isdir(dir) == False:
+        os.mkdir(dir)
+    df.to_csv(f'{dir}/{filename}', index=False)
 
 if  __name__ == "__main__":
     fData = create_fake_data(10000)
-    save_data(fData, "input/input.csv")
+    save_data(fData, "input.csv")
