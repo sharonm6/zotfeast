@@ -84,4 +84,30 @@ class DatabaseService {
   Stream<List<Recipe>> get recipe {
     return recipeCollection.snapshots().map(_recipeFromSnapshot);
   }
+
+  Future<Recipe> recipeFromSnapshot(data) async {
+    return await Recipe(
+      name: data?['name'],
+      cookTime: data?['cookTime'],
+      price: data?['price'],
+      servings: data?['servings'],
+      calories: data?['calories'],
+      ingredients: List<String>.from(data?['ingredients']),
+      instructions: List<String>.from(data?['instructions']),
+      rid: data?['rid'],
+    );
+  }
+
+  Future<Recipe> getRecipeFromId(String rid) async {
+    return recipeCollection.doc(rid).get().then((data) => Recipe(
+          name: data?['name'],
+          cookTime: data?['cookTime'],
+          price: data?['price'],
+          servings: data?['servings'],
+          calories: data?['calories'],
+          ingredients: List<String>.from(data?['ingredients']),
+          instructions: List<String>.from(data?['instructions']),
+          rid: data?['rid'],
+        ));
+  }
 }

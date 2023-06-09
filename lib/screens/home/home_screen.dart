@@ -5,13 +5,16 @@ import 'package:zotfeast/models/user.dart';
 import 'package:zotfeast/screens/home/recipe_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:zotfeast/models/recipe.dart';
+import 'package:zotfeast/services/database.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key, required User user})
+  HomeScreen({Key? key, required User user, required DatabaseService dbService})
       : _user = user,
+        _dbService = dbService,
         super(key: key);
 
   final User _user;
+  final DatabaseService _dbService;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,9 +22,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late User _user;
+  late DatabaseService _dbService;
   @override
   void initState() {
     _user = widget._user;
+    _dbService = widget._dbService;
     super.initState();
   }
 
@@ -64,22 +69,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     containerColor: ColorConstants.zotfeastBrownLight,
                     paddingInset: const EdgeInsets.fromLTRB(14, 11, 14, 11),
                     childWidget: TextButton(
-                        child: Text(
-                          'More Info',
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            color: ColorConstants.zotfeastBrownDark,
-                          ),
-                          textAlign: TextAlign.center,
+                      child: Text(
+                        'More Info',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: ColorConstants.zotfeastBrownDark,
                         ),
-                        onPressed: () async => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RecipeScreen(
-                                        recipe: recipes[0], user: _user)),
-                              )
-                            }),
+                        textAlign: TextAlign.center,
+                      ),
+                      onPressed: () async {
+                        if (_user.selectedRecipe == '') {
+                          return;
+                        }
+                        Recipe recipe = await widget._dbService
+                            .getRecipeFromId(_user.selectedRecipe);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                RecipeScreen(recipe: recipe, user: _user),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   const SizedBox(width: 36.0),
                   RoundedRectangle(

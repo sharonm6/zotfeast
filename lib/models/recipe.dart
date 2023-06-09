@@ -32,7 +32,7 @@ class Recipe {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      rid: rid,
+      'rid': rid,
       'cookTime': cookTime,
       'price': price,
       'servings': servings,
