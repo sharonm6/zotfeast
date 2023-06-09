@@ -13,10 +13,13 @@ import 'package:zotfeast/services/database.dart';
 import 'package:zotfeast/components/recipe_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:zotfeast/models/recipe.dart';
-import 'package:zotfeast/screens/home/recipe_screen.dart';
 
 class RecipeListScreen extends StatefulWidget {
-  const RecipeListScreen({super.key});
+  const RecipeListScreen({Key? key, required User user})
+      : _user = user,
+        super(key: key);
+
+  final User _user;
 
   @override
   State<RecipeListScreen> createState() => _RecipeListScreenState();
@@ -36,38 +39,29 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
             style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),
-        SizedBox(height:15),
-        InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RecipeScreen(recipe: recipes[0],)),
-            );
-          },
-        child:  
+        SizedBox(height: 15),
         Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child:ListView.builder(
-          itemCount:recipes.length,
-          itemBuilder: (context,index) {
-            return Column(
-              children: [
-        RecipeTile(
-          recipeName: recipes[index].name,
-          recipeImage: 'food_motif.png',
-          recipePortion: recipes[index].servings,
-          recipeCalories: recipes[index].calories,
-          ),
-
-        SizedBox(height:25.0),
-              ],
-            );
-          },
-        )),
-        ),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: ListView.builder(
+              itemCount: recipes.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    RecipeTile(
+                      recipe: recipes[index],
+                      recipeName: recipes[index].name,
+                      recipeImage: 'pasta.png',
+                      recipePortion: recipes[index].servings,
+                      recipeCalories: recipes[index].calories,
+                      user: widget._user,
+                    ),
+                    SizedBox(height: 25.0),
+                  ],
+                );
+              },
+            )),
       ]),
     );
   }
 }
-

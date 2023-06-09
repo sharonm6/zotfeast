@@ -5,13 +5,16 @@ import 'package:zotfeast/models/user.dart';
 import 'package:zotfeast/screens/home/recipe_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:zotfeast/models/recipe.dart';
+import 'package:zotfeast/services/database.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key, required User user})
+  HomeScreen({Key? key, required User user, required DatabaseService dbService})
       : _user = user,
+        _dbService = dbService,
         super(key: key);
 
   final User _user;
+  final DatabaseService _dbService;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,9 +22,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late User _user;
+  late DatabaseService _dbService;
   @override
   void initState() {
     _user = widget._user;
+    _dbService = widget._dbService;
     super.initState();
   }
 
@@ -43,62 +48,64 @@ class _HomeScreenState extends State<HomeScreen> {
           "Upcoming Task",
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        SizedBox(height:10),
-
+        SizedBox(height: 10),
         RoundedRectangle(
           borderRadiusAmt: 10.0,
           containerColor: ColorConstants.zotfeastBrown,
           paddingInset: const EdgeInsets.fromLTRB(40, 20, 40, 20),
-          childWidget: Column(
-            children: [
+          childWidget: Column(children: [
             Text(
               "Buy Groceries @ 10AM",
-                style: TextStyle(fontSize: 23.0,
-                color: Color(0xFF7C924E)
-                ),
-                textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 23.0, color: Color(0xFF7C924E)),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height:5),
+            SizedBox(height: 5),
             Center(
-              child:Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RoundedRectangle(
-                  borderRadiusAmt: 10.0,
-                  containerColor: ColorConstants.zotfeastBrownLight,
-                  paddingInset: const EdgeInsets.fromLTRB(14, 11, 14, 11),
-                  childWidget: TextButton(
-                    child: 
-                    Text(
-                      'More Info',
-                    style: TextStyle(fontSize: 15.0,
-                    color: ColorConstants.zotfeastBrownDark,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                    onPressed: () async => {
-                              Navigator.push(
-                            context,
-                        MaterialPageRoute(builder: (context) => RecipeScreen(recipe: recipes[0],)),
-            )
-                            }
-                  ),      
-                ),
-                const SizedBox(width: 36.0),
-                RoundedRectangle(
+                children: [
+                  RoundedRectangle(
                     borderRadiusAmt: 10.0,
                     containerColor: ColorConstants.zotfeastBrownLight,
                     paddingInset: const EdgeInsets.fromLTRB(14, 11, 14, 11),
-                    childWidget: Row(
-                      children: [
+                    childWidget: TextButton(
+                      child: Text(
+                        'More Info',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: ColorConstants.zotfeastBrownDark,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      onPressed: () async {
+                        if (_user.selectedRecipe == '') {
+                          return;
+                        }
+                        Recipe recipe = await widget._dbService
+                            .getRecipeFromId(_user.selectedRecipe);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                RecipeScreen(recipe: recipe, user: _user),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 36.0),
+                  RoundedRectangle(
+                      borderRadiusAmt: 10.0,
+                      containerColor: ColorConstants.zotfeastBrownLight,
+                      paddingInset: const EdgeInsets.fromLTRB(14, 11, 14, 11),
+                      childWidget: Row(children: [
                         InkWell(
-                          onTap: () {
-                          },
-                        child: Icon(
-                          Icons.refresh,
-                          size: 23,
-                          color: Color(0xFFD2C3B3),
-                        ),  
+                          onTap: () {},
+                          child: Icon(
+                            Icons.refresh,
+                            size: 23,
+                            color: Color(0xFFD2C3B3),
+                          ),
                         ),
                         SizedBox(width: 8.0),
                         Text(
@@ -111,24 +118,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(width: 8.0),
                         InkWell(
-                          onTap: () {
-                          },
-                        child: Icon(
-                          Icons.check,
-                          size: 23,
-                          color: Color(0xFFD2C3B3),
-                        ),  
+                          onTap: () {},
+                          child: Icon(
+                            Icons.check,
+                            size: 23,
+                            color: Color(0xFFD2C3B3),
+                          ),
                         ),
-                      ]
-                    )        
-                ),
-              ],
-            ),
+                      ])),
+                ],
+              ),
             )
           ]),
         ),
-
-
         const SizedBox(height: 46.0),
         Text(
           "Your Schedule Today",
