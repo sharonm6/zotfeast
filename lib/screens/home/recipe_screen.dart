@@ -74,22 +74,21 @@ class _RecipeScreenState extends State<RecipeScreen> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      onPressed: () async => {
-                            await DatabaseService(uid: widget._user.uid)
-                                .updateUserData(
-                              widget._user.name,
-                              widget._user.email,
-                              hasCar: widget._user.hasCar,
-                              isDarkMode: widget._user.isDarkMode,
-                              cookiesSaved: widget._user.cookiesSaved,
-                              localStorageSaved: widget._user.localStorageSaved,
-                              geolocationEnabled:
-                                  widget._user.geolocationEnabled,
-                              isVegetarian: widget._user.isVegetarian,
-                              isVegan: widget._user.isVegan,
-                              selectedRecipe: widget._recipe.rid,
-                            )
-                          })
+                      onPressed: () {
+                        DatabaseService(uid: widget._user.uid).updateUserData(
+                          widget._user.name,
+                          widget._user.email,
+                          hasCar: widget._user.hasCar,
+                          isDarkMode: widget._user.isDarkMode,
+                          cookiesSaved: widget._user.cookiesSaved,
+                          localStorageSaved: widget._user.localStorageSaved,
+                          geolocationEnabled: widget._user.geolocationEnabled,
+                          isVegetarian: widget._user.isVegetarian,
+                          isVegan: widget._user.isVegan,
+                          selectedRecipe: widget._recipe.rid,
+                        );
+                        Navigator.pop(context);
+                      })
                 ])
               ],
             )),

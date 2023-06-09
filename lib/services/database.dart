@@ -18,12 +18,12 @@ class DatabaseService {
   Future<void> updateUserData(String name, String email,
       {bool hasCar = false,
       bool isDarkMode = false,
-      cookiesSaved = true,
-      localStorageSaved = true,
-      geolocationEnabled = true,
-      isVegetarian = false,
-      isVegan = false,
-      selectedRecipe = ''}) async {
+      bool cookiesSaved = true,
+      bool localStorageSaved = true,
+      bool geolocationEnabled = true,
+      bool isVegetarian = false,
+      bool isVegan = false,
+      String selectedRecipe = ''}) async {
     return await userCollection.doc(uid).set({
       'name': name,
       'email': email,

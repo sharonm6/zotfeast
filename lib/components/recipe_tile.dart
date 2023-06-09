@@ -23,6 +23,18 @@ class RecipeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    dynamic textColor;
+    print(recipe.name);
+    print(recipe.rid);
+    print(user.selectedRecipe);
+    print('');
+    print('');
+    if (recipe.rid == user.selectedRecipe) {
+      textColor = Color(0xFF7C924E);
+    } else {
+      textColor = Color(0xFFF8F2ED);
+    }
+
     return InkWell(
         onTap: () {
           Navigator.push(
@@ -48,7 +60,7 @@ class RecipeTile extends StatelessWidget {
                       recipeName,
                       style: TextStyle(
                         fontSize: 23,
-                        color: Color(0xFFF8F2ED),
+                        color: textColor,
                         //Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),
@@ -56,7 +68,7 @@ class RecipeTile extends StatelessWidget {
                       recipePortion.toString() + " servings",
                       style: TextStyle(
                         fontSize: 20,
-                        color: Color(0xFFF8F2ED),
+                        color: textColor,
                       ),
                     ),
                     // recipe calories
@@ -64,7 +76,7 @@ class RecipeTile extends StatelessWidget {
                       recipeCalories.toString() + " calories",
                       style: TextStyle(
                         fontSize: 20,
-                        color: Color(0xFFF8F2ED),
+                        color: textColor,
                       ),
                     ),
                   ],
