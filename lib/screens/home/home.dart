@@ -31,8 +31,7 @@ class _HomeState extends State<Home> {
             User userInfo = snapshot.data!;
             List<Widget> pages = [
               HomeScreen(user: userInfo),
-              const RecipeListScreen(),
-              // const RecipeScreen(recipe: recipe),
+              RecipeListScreen(user: userInfo),
               const MapScreen(),
               UserProfileScreen(
                   user: userInfo, dbService: widget.databaseService),

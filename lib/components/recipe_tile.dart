@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zotfeast/config/color_constants.dart';
 import 'package:zotfeast/components/rounded_rectangle.dart';
+import 'package:zotfeast/models/user.dart';
 import 'package:zotfeast/screens/home/recipe_screen.dart';
 import 'package:zotfeast/models/recipe.dart';
 
@@ -10,14 +11,15 @@ class RecipeTile extends StatelessWidget {
   final String recipeImage;
   final int recipePortion;
   final int recipeCalories;
+  final User user;
 
-  const RecipeTile({
-    required this.recipe,
-    this.recipeName = "Recipe Name",
-    this.recipeImage = "food_motif.png",
-    this.recipePortion = 0,
-    this.recipeCalories = 0,
-  });
+  const RecipeTile(
+      {required this.recipe,
+      required this.user,
+      this.recipeName = "Recipe Name",
+      this.recipeImage = "food_motif.png",
+      this.recipePortion = 0,
+      this.recipeCalories = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class RecipeTile extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => RecipeScreen(
                       recipe: recipe,
+                      user: user,
                     )),
           );
         },

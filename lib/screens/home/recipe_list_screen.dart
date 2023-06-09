@@ -15,7 +15,11 @@ import 'package:provider/provider.dart';
 import 'package:zotfeast/models/recipe.dart';
 
 class RecipeListScreen extends StatefulWidget {
-  const RecipeListScreen({super.key});
+  const RecipeListScreen({Key? key, required User user})
+      : _user = user,
+        super(key: key);
+
+  final User _user;
 
   @override
   State<RecipeListScreen> createState() => _RecipeListScreenState();
@@ -50,6 +54,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                       recipeImage: 'pasta.png',
                       recipePortion: recipes[index].servings,
                       recipeCalories: recipes[index].calories,
+                      user: widget._user,
                     ),
                     SizedBox(height: 25.0),
                   ],

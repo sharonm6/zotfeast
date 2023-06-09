@@ -16,10 +16,26 @@ class DatabaseService {
   // Users
 
   Future<void> updateUserData(String name, String email,
-      {bool hasCar = false, bool isDarkMode = false, cookiesSaved = true, localStorageSaved = true, geolocationEnabled = true, isVegetarian = false,isVegan = false}) async {
-    return await userCollection
-        .doc(uid)
-        .set({'name': name, 'email': email, 'hasCar': hasCar, 'isDarkMode': isDarkMode, 'cookiesSaved': cookiesSaved, 'localStorageSaved': localStorageSaved,'geolocationEnabled' : geolocationEnabled,'isVegetarian' : isVegetarian, 'isVegan':isVegan});
+      {bool hasCar = false,
+      bool isDarkMode = false,
+      cookiesSaved = true,
+      localStorageSaved = true,
+      geolocationEnabled = true,
+      isVegetarian = false,
+      isVegan = false,
+      selectedRecipe = ''}) async {
+    return await userCollection.doc(uid).set({
+      'name': name,
+      'email': email,
+      'hasCar': hasCar,
+      'isDarkMode': isDarkMode,
+      'cookiesSaved': cookiesSaved,
+      'localStorageSaved': localStorageSaved,
+      'geolocationEnabled': geolocationEnabled,
+      'isVegetarian': isVegetarian,
+      'isVegan': isVegan,
+      'selectedRecipe': selectedRecipe,
+    });
   }
 
   User _userFromSnapshot(DocumentSnapshot snapshot) {
@@ -35,7 +51,8 @@ class DatabaseService {
         localStorageSaved: data?['localStorageSaved'],
         geolocationEnabled: data?['geolocationEnabled'],
         isVegetarian: data?['isVegetarian'],
-        isVegan: data?['isVegan']);
+        isVegan: data?['isVegan'],
+        selectedRecipe: data?['selectedRecipe']);
   }
 
   Stream<User> get user {
@@ -52,13 +69,15 @@ class DatabaseService {
       Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
 
       return Recipe(
-          name: data?['name'],
-          cookTime: data?['cookTime'],
-          price: data?['price'],
-          servings: data?['servings'],
-          calories: data?['calories'],
-          ingredients: List<String>.from(data?['ingredients']),
-          instructions: List<String>.from(data?['instructions']));
+        name: data?['name'],
+        cookTime: data?['cookTime'],
+        price: data?['price'],
+        servings: data?['servings'],
+        calories: data?['calories'],
+        ingredients: List<String>.from(data?['ingredients']),
+        instructions: List<String>.from(data?['instructions']),
+        rid: doc.id,
+      );
     }).toList();
   }
 
