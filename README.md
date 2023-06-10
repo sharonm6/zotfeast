@@ -1,16 +1,8 @@
-# zotfeast
+# ZotFeast
+After their first year, many students at UCI move off-campus and struggle to build time into their schedules to cook healthy meals, opting to instead get take-out or eat instant/frozen foods. Having a healthy diet is important for students to maintain focus and achieve maximum academic success. We hope to alleviate the stress of meal prepping and cooking, so students can focus more time on other aspects of their life, whether that is academic, social, or professional.
 
-A new Flutter project.
+ZotFeast is an interactive mobile app that reminds users based on location and availibility on when to meal prep. 
 
 ## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Download Flutter SDK https://docs.flutter.dev/get-started/install
+- execute: 'flutter run'
