@@ -11,9 +11,16 @@ import 'package:zotfeast/models/user.dart';
 import 'package:zotfeast/services/database.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key, required this.user, required this.databaseService});
+  Home(
+      {super.key,
+      required this.user,
+      required this.databaseService,
+      required this.showNotif,
+      required this.toggleNotif});
   final User user;
   final DatabaseService databaseService;
+  final bool showNotif;
+  final Function toggleNotif;
 
   @override
   State<Home> createState() => _HomeState();
@@ -30,7 +37,11 @@ class _HomeState extends State<Home> {
           if (snapshot.hasData) {
             User userInfo = snapshot.data!;
             List<Widget> pages = [
-              HomeScreen(user: userInfo, dbService: widget.databaseService),
+              HomeScreen(
+                  user: userInfo,
+                  dbService: widget.databaseService,
+                  showNotif: widget.showNotif,
+                  toggleNotif: widget.toggleNotif),
               RecipeListScreen(user: userInfo),
               const MapScreen(),
               UserProfileScreen(

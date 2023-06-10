@@ -40,9 +40,8 @@ class AuthService {
       firebase_auth.User? user = result.user;
 
       final bool should_notif = await checkIfNotif(user);
-      print(should_notif);
 
-      return user;
+      return [user, should_notif];
     } catch (error) {
       print(error.toString());
       return error;

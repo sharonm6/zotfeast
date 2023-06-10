@@ -90,6 +90,8 @@ class _RecipeScreenState extends State<RecipeScreen> {
                               isVegetarian: widget._user.isVegetarian,
                               isVegan: widget._user.isVegan,
                               selectedRecipe: widget._recipe.rid,
+                              schedule: widget._user.schedule,
+                              task: widget._user.task,
                             );
                             Navigator.pop(context);
                           })
