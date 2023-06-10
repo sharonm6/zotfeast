@@ -23,7 +23,8 @@ class DatabaseService {
       bool geolocationEnabled = true,
       bool isVegetarian = false,
       bool isVegan = false,
-      String selectedRecipe = ''}) async {
+      String selectedRecipe = '',
+      String schedule = ''}) async {
     return await userCollection.doc(uid).set({
       'name': name,
       'email': email,
@@ -35,6 +36,7 @@ class DatabaseService {
       'isVegetarian': isVegetarian,
       'isVegan': isVegan,
       'selectedRecipe': selectedRecipe,
+      'schedule': schedule
     });
   }
 
@@ -52,7 +54,8 @@ class DatabaseService {
         geolocationEnabled: data?['geolocationEnabled'],
         isVegetarian: data?['isVegetarian'],
         isVegan: data?['isVegan'],
-        selectedRecipe: data?['selectedRecipe']);
+        selectedRecipe: data?['selectedRecipe'],
+        schedule: data?['schedule']);
   }
 
   Stream<User> get user {

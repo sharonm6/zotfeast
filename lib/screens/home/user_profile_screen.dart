@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+// import 'package:http/http.dart';
+import 'package:http/browser_client.dart';
+import 'package:intl/intl.dart';
 import 'package:zotfeast/config/color_constants.dart';
 import 'package:zotfeast/config/constants.dart';
 import 'package:zotfeast/components/rounded_rectangle.dart';
@@ -14,6 +17,8 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:icalendar_parser/icalendar_parser.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:convert';
 
 class UserProfileScreen extends StatefulWidget {
   UserProfileScreen(
@@ -27,21 +32,35 @@ class UserProfileScreen extends StatefulWidget {
   State<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
-Future<void> sendICSFileToBackend(File file) async {
-  final url = Uri.parse('https://localhost:5000');
-    var request = http.MultipartRequest('POST',url);
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        '${User}-file.ics',
-        file.path,
-        contentType: MediaType('text','calendar'),
-      )
-    );
-    var response = await request.send();
+Future<String> sendICSFileToBackend(
+    Uint8List fileBytes, String fileName) async {
+  final ics = String.fromCharCodes(fileBytes);
+
+  final formatter = DateFormat('yyyyMMdd');
+  final date = formatter.format(DateTime.now());
+  final queryParameters = {
+    'date': date,
+  };
+
+  final url = Uri.parse('http://127.0.0.1:5001/api/calendar/parse');
+  final body = {'date': date, 'ics': ics};
+
+  final response = await http.post(url,
+      body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
+
+  final schedule = json.decode(response.body)['schedule'];
+
+  if (response.statusCode == 200) {
+    print('File uploaded successfully');
+  } else {
+    print('File upload failed');
+  }
+
+  return schedule;
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  File? selectedFile;
+  List<PlatformFile>? _paths;
 
   final AuthService _auth = AuthService();
 
@@ -54,6 +73,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   late bool _geolocationEnabled;
   late bool _isVegetarian;
   late bool _isVegan;
+  late String _schedule;
 
   late User _user;
   @override
@@ -67,10 +87,47 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _geolocationEnabled = widget._user.geolocationEnabled;
     _isVegetarian = widget._user.isVegetarian;
     _isVegan = widget._user.isVegan;
+    _schedule = widget._user.schedule;
 
     super.initState();
-  } 
+  }
 
+  void pickFiles() async {
+    try {
+      _paths = (await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: false,
+        onFileLoading: (FilePickerStatus status) => print(status),
+        allowedExtensions: ['ics'],
+      ))
+          ?.files;
+    } catch (e) {
+      print(e.toString());
+    }
+    setState(() {
+      if (_paths != null) {
+        if (_paths != null) {
+          sendICSFileToBackend(_paths!.first.bytes!, _paths!.first.name)
+              .then((result) {
+            setState(() {
+              _schedule = result;
+            });
+            print(_schedule);
+            DatabaseService(uid: _user.uid).updateUserData(
+                _user.name, _user.email,
+                hasCar: _hascar,
+                isDarkMode: _isDarkMode,
+                cookiesSaved: _cookiesSaved,
+                localStorageSaved: _localStorageSaved,
+                geolocationEnabled: _geolocationEnabled,
+                isVegetarian: _isVegetarian,
+                isVegan: _isVegan,
+                schedule: _schedule);
+          });
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,18 +184,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         : null,
                     controller: nameController,
                   ),
-                  // InkWell(
-                  //   onTap: () {},
-                  //   child: Padding(
-                  //     padding: EdgeInsets.only(left: 230),
-                  //     child: Icon(
-                  //       Icons.mode_edit_outline_outlined,
-                  //       size: 25,
-                  //       color: Color(0xFFF8F2ED),
-                  //     ),
-                  //   ),
-                  // )
-                  // ]),
                 ),
               ),
               SizedBox(height: 5.0),
@@ -148,8 +193,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                   onPressed: () async => {
-                        await DatabaseService(uid: _user.uid)
-                            .updateUserData(nameController.text, _user.email)
+                        await DatabaseService(uid: _user.uid).updateUserData(
+                            nameController.text, _user.email,
+                            hasCar: _hascar,
+                            isDarkMode: _isDarkMode,
+                            cookiesSaved: _cookiesSaved,
+                            localStorageSaved: _localStorageSaved,
+                            geolocationEnabled: _geolocationEnabled,
+                            isVegetarian: _isVegetarian,
+                            isVegan: _isVegan,
+                            schedule: _schedule)
                       }),
               SizedBox(height: 10.0),
               Center(
@@ -173,26 +226,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           color: Color(0xFFF8F2ED),
                           //fontFamily: 'Lato'
                         ),
-                        textAlign: TextAlign.left),  
+                        textAlign: TextAlign.left),
                     InkWell(
-                        onTap: () async {
-                        final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['ics']);
-                        if (result != null) {
-                          setState(() {
-                            selectedFile = File(result.files.single.path!);
-                          });
-                          sendICSFileToBackend(selectedFile!);
-                        }
-                      },
-                      child:
-                      Padding(
+                      onTap: pickFiles,
+                      child: Padding(
                         padding: EdgeInsets.only(left: 265),
                         child: Icon(
                           Icons.download,
                           size: 25,
                           color: Color(0xFFF8F2ED),
                         ),
-                        
                       ),
                     )
                   ]),
@@ -214,16 +257,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   containerColor: ColorConstants.zotfeastBrown,
                   paddingInset: const EdgeInsets.all(8.0),
                   childWidget: Column(children: [
-                    TextButton(
-                        child: Text(
-                          'Confirm Changes',
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        onPressed: () async => {
-                              await DatabaseService(uid: _user.uid)
-                                  .updateUserData(_user.name, _user.email,
-                                      hasCar: _hascar, isDarkMode: _isDarkMode, cookiesSaved: _cookiesSaved, localStorageSaved: _localStorageSaved, geolocationEnabled: _geolocationEnabled,isVegetarian: _isVegetarian,isVegan: _isVegan)
-                            }),
                     CheckboxListTile(
                         title: Text('Has Car',
                             style: TextStyle(
@@ -280,8 +313,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         checkColor: Color(0xFFF8F2ED),
                         onChanged: (value) {
                           setState(() {
-                            _localStorageSaved =
-                                !_localStorageSaved;
+                            _localStorageSaved = !_localStorageSaved;
                           });
                         }),
                     CheckboxListTile(
@@ -329,6 +361,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             _isVegan = !_isVegan;
                           });
                         }),
+                    TextButton(
+                        child: Text(
+                          'Confirm Changes',
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                        onPressed: () async => {
+                              await DatabaseService(uid: _user.uid)
+                                  .updateUserData(_user.name, _user.email,
+                                      hasCar: _hascar,
+                                      isDarkMode: _isDarkMode,
+                                      cookiesSaved: _cookiesSaved,
+                                      localStorageSaved: _localStorageSaved,
+                                      geolocationEnabled: _geolocationEnabled,
+                                      isVegetarian: _isVegetarian,
+                                      isVegan: _isVegan,
+                                      schedule: _schedule)
+                            }),
                   ]),
                 ),
               ),
@@ -352,11 +401,5 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               SizedBox(height: 20.0)
             ]));
-  }
-  
-  String _generateUniqueFileName(File file) {
-    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-    String extension = path.extension(file.path);
-    return 'file_$timestamp$extension';
   }
 }
