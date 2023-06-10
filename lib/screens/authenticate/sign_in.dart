@@ -7,7 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
-  SignIn({required this.toggleView});
+  final Function toggleNotif;
+  SignIn({required this.toggleView, required this.toggleNotif});
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -75,10 +76,15 @@ class _SignInState extends State<SignIn> {
                               return;
                             }
                             setState(() => loading = true);
-                            dynamic result =
+                            dynamic resultNotif =
                                 await _auth.signInWithEmailAndPassword(
                                     emailController.text,
                                     passwordController.text);
+                            dynamic result = resultNotif[0];
+                            bool should_notif = resultNotif[1];
+                            if (should_notif) {
+                              widget.toggleNotif();
+                            }
                             if (result is firebase_auth.FirebaseAuthException) {
                               if (!mounted) {
                                 return;

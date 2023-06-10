@@ -49,13 +49,22 @@ List<Widget> buildTimeSlots(List<int> schedule) {
 }
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key, required User user, required DatabaseService dbService})
+  HomeScreen(
+      {Key? key,
+      required User user,
+      required bool showNotif,
+      required Function toggleNotif,
+      required DatabaseService dbService})
       : _user = user,
         _dbService = dbService,
+        _showNotif = showNotif,
+        _toggleNotif = toggleNotif,
         super(key: key);
 
   final User _user;
   final DatabaseService _dbService;
+  final bool _showNotif;
+  final Function _toggleNotif;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -64,10 +73,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late User _user;
   late DatabaseService _dbService;
+  late bool _showNotif;
+  late Function _toggleNotif;
   @override
   void initState() {
     _user = widget._user;
     _dbService = widget._dbService;
+    _showNotif = widget._showNotif;
+    _toggleNotif = widget._toggleNotif;
     super.initState();
   }
 
@@ -81,6 +94,39 @@ class _HomeScreenState extends State<HomeScreen> {
     return Padding(
       padding: const EdgeInsets.all(30),
       child: Column(children: [
+        _showNotif
+            ? AlertDialog(
+                title: const Text('Are you free?'),
+                content: const Text(
+                    "Save time and go shopping at Albertsons to start your Chicken recipe."),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => _toggleNotif(),
+                    child: const Text('Later'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _toggleNotif();
+                      _dbService.updateUserData(
+                        widget._user.name,
+                        widget._user.email,
+                        hasCar: widget._user.hasCar,
+                        isDarkMode: widget._user.isDarkMode,
+                        cookiesSaved: widget._user.cookiesSaved,
+                        localStorageSaved: widget._user.localStorageSaved,
+                        geolocationEnabled: widget._user.geolocationEnabled,
+                        isVegetarian: widget._user.isVegetarian,
+                        isVegan: widget._user.isVegan,
+                        selectedRecipe: widget._user.selectedRecipe,
+                        schedule: widget._user.schedule,
+                        task: widget._user.task == 0 ? 1 : 0,
+                      );
+                    },
+                    child: const Text('Now'),
+                  ),
+                ],
+              )
+            : SizedBox(height: 0),
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
@@ -100,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
           paddingInset: const EdgeInsets.fromLTRB(40, 20, 40, 20),
           childWidget: Column(children: [
             Text(
-              "Buy Groceries @ 10AM",
+              _user.task == 0 ? "Buy Groceries" : "Cook Meal",
               style: TextStyle(fontSize: 23.0, color: Color(0xFF7C924E)),
               textAlign: TextAlign.center,
             ),
@@ -163,7 +209,23 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(width: 8.0),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            _dbService.updateUserData(
+                              widget._user.name,
+                              widget._user.email,
+                              hasCar: widget._user.hasCar,
+                              isDarkMode: widget._user.isDarkMode,
+                              cookiesSaved: widget._user.cookiesSaved,
+                              localStorageSaved: widget._user.localStorageSaved,
+                              geolocationEnabled:
+                                  widget._user.geolocationEnabled,
+                              isVegetarian: widget._user.isVegetarian,
+                              isVegan: widget._user.isVegan,
+                              selectedRecipe: widget._user.selectedRecipe,
+                              schedule: widget._user.schedule,
+                              task: widget._user.task == 0 ? 1 : 0,
+                            );
+                          },
                           child: Icon(
                             Icons.check,
                             size: 23,
