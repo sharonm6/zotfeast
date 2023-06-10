@@ -25,7 +25,7 @@ class User {
       this.isVegetarian = false,
       this.isVegan = false,
       this.selectedRecipe = '',
-      this.schedule = '',
+      this.schedule = '00000000000000000000000000000000',
       this.task = 0});
 
   User.fromData(Map<String, dynamic> data)
@@ -40,7 +40,7 @@ class User {
         isVegetarian = data['isVegetarian'] ?? false,
         isVegan = data['isVegan'] ?? false,
         selectedRecipe = data['selectedRecipe'] ?? '',
-        schedule = data['schedule'] ?? '',
+        schedule = data['schedule'] ?? '00000000000000000000000000000000',
         task = data['task'] ?? 0;
 
   Map<String, dynamic> toJson() {

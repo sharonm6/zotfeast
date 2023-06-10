@@ -15,37 +15,34 @@ String getTimeFromIndex(int index) {
   return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
 }
 
-
 List<Widget> buildTimeSlots(List<int> schedule) {
   List<Widget> timeSlots = [];
 
   for (int i = 0; i < schedule.length; i++) {
-    Color slotColor = schedule[i] == 1 ? const Color.fromARGB(255, 172, 197, 143): Colors.transparent;
+    Color slotColor = schedule[i] == 1
+        ? const Color.fromARGB(255, 172, 197, 143)
+        : Colors.transparent;
     String time = getTimeFromIndex(i);
 
-    timeSlots.add(
-      Row(
-        children: [
-          Expanded(
-            child: 
-      Container(
-        width: 200,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-          color: slotColor,
-        ),
-        child: Center(
-          child: Text(
-            time,
-            style: TextStyle(
-              color: Colors.white,
-              //fontWeight: FontWeight.bold,
+    timeSlots.add(Row(children: [
+      Expanded(
+        child: Container(
+          width: 200,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+            color: slotColor,
+          ),
+          child: Center(
+            child: Text(
+              time,
+              style: TextStyle(
+                color: Colors.white,
+                //fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
       ),
-          ),
-      
     ]));
   }
   return timeSlots;
@@ -77,12 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final recipes = Provider.of<List<Recipe>>(context);
-    final List<int> schedule = [
-        1, 1, 0, 1, 0, 0, 1, 0,
-        1, 0, 1, 1, 0, 0, 1, 0,
-        0, 1, 0, 1, 0, 1, 1, 0,
-        1, 0, 1, 0, 0, 1, 0, 1,
-  ];
+    final List<int> schedule = _user.schedule.split('').map(int.parse).toList();
     final startTime = TimeOfDay(hour: 8, minute: 0);
     final interval = const Duration(minutes: 30);
 
@@ -184,31 +176,30 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ]),
         ),
-        const SizedBox(height:15.0),
+        const SizedBox(height: 15.0),
         Text(
           "Your Schedule Today",
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        SizedBox(height:3.0),
+        SizedBox(height: 3.0),
         Text(
-  'Today\'s Date: ${DateFormat('yyyy-MM-dd').format(DateTime.now())}',
-  style: TextStyle(
-    fontSize: 15,
-    fontWeight: FontWeight.bold,
-  ),
-),
-SizedBox(height:5.0),
+          'Today\'s Date: ${DateFormat('yyyy-MM-dd').format(DateTime.now())}',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 5.0),
         Container(
           width: 110,
           height: 240,
-          child:
-        RoundedRectangle(
-          borderRadiusAmt: 10.0,
-          containerColor: ColorConstants.zotfeastBrown,
-          paddingInset: const EdgeInsets.fromLTRB(25, 15, 25, 15),
-          childWidget: GridView.count(
-            crossAxisCount: 1,
-            children: buildTimeSlots(schedule),
+          child: RoundedRectangle(
+            borderRadiusAmt: 10.0,
+            containerColor: ColorConstants.zotfeastBrown,
+            paddingInset: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+            childWidget: GridView.count(
+              crossAxisCount: 1,
+              children: buildTimeSlots(schedule),
             ),
           ),
         ),

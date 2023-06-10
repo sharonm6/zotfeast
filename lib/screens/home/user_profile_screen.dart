@@ -105,6 +105,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     } catch (e) {
       print(e.toString());
     }
+    if (!mounted) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
     setState(() {
       if (_paths != null) {
         if (_paths != null) {
