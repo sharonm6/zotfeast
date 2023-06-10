@@ -144,17 +144,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding: EdgeInsets.only(right: 1),
-                  child: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    size: 25,
-                    color: Color(0xFFB5A599),
-                  ),
-                ),
-              ),
+              const SizedBox(height: 5.0),
               Text(
                 'Hey! \nIts You!',
                 style: TextStyle(
