@@ -24,11 +24,6 @@ class RecipeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     dynamic textColor;
-    print(recipe.name);
-    print(recipe.rid);
-    print(user.selectedRecipe);
-    print('');
-    print('');
     if (recipe.rid == user.selectedRecipe) {
       textColor = Color(0xFF7C924E);
     } else {

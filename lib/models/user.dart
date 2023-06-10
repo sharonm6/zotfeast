@@ -10,6 +10,7 @@ class User {
   bool isVegetarian;
   bool isVegan;
   String selectedRecipe;
+  String schedule;
 
   User(
       {required this.uid,
@@ -22,7 +23,8 @@ class User {
       this.geolocationEnabled = true,
       this.isVegetarian = false,
       this.isVegan = false,
-      this.selectedRecipe = ''});
+      this.selectedRecipe = '',
+      this.schedule = ''});
 
   User.fromData(Map<String, dynamic> data)
       : uid = data['uid'],
@@ -35,7 +37,8 @@ class User {
         geolocationEnabled = data['geolocationEnabled'] ?? true,
         isVegetarian = data['isVegetarian'] ?? false,
         isVegan = data['isVegan'] ?? false,
-        selectedRecipe = data['selectedRecipe'] ?? '';
+        selectedRecipe = data['selectedRecipe'] ?? '',
+        schedule = data['schedule'] ?? '';
 
   Map<String, dynamic> toJson() {
     return {
@@ -49,7 +52,8 @@ class User {
       'geolocationEnabled': geolocationEnabled,
       'isVegetarian': isVegetarian,
       'isVegan': isVegan,
-      'selectedRecipe': selectedRecipe
+      'selectedRecipe': selectedRecipe,
+      'schedule': schedule
     };
   }
 }
