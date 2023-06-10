@@ -11,6 +11,7 @@ class User {
   bool isVegan;
   String selectedRecipe;
   String schedule;
+  int task;
 
   User(
       {required this.uid,
@@ -24,7 +25,8 @@ class User {
       this.isVegetarian = false,
       this.isVegan = false,
       this.selectedRecipe = '',
-      this.schedule = ''});
+      this.schedule = '',
+      this.task = 0});
 
   User.fromData(Map<String, dynamic> data)
       : uid = data['uid'],
@@ -38,7 +40,8 @@ class User {
         isVegetarian = data['isVegetarian'] ?? false,
         isVegan = data['isVegan'] ?? false,
         selectedRecipe = data['selectedRecipe'] ?? '',
-        schedule = data['schedule'] ?? '';
+        schedule = data['schedule'] ?? '',
+        task = data['task'] ?? 0;
 
   Map<String, dynamic> toJson() {
     return {
@@ -53,7 +56,8 @@ class User {
       'isVegetarian': isVegetarian,
       'isVegan': isVegan,
       'selectedRecipe': selectedRecipe,
-      'schedule': schedule
+      'schedule': schedule,
+      'task': task,
     };
   }
 }

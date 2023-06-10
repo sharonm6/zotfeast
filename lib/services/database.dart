@@ -24,7 +24,8 @@ class DatabaseService {
       bool isVegetarian = false,
       bool isVegan = false,
       String selectedRecipe = '',
-      String schedule = ''}) async {
+      String schedule = '00000000000000000000000000000000',
+      int task = 0}) async {
     return await userCollection.doc(uid).set({
       'name': name,
       'email': email,
@@ -36,7 +37,8 @@ class DatabaseService {
       'isVegetarian': isVegetarian,
       'isVegan': isVegan,
       'selectedRecipe': selectedRecipe,
-      'schedule': schedule
+      'schedule': schedule,
+      'task': task
     });
   }
 
@@ -55,7 +57,8 @@ class DatabaseService {
         isVegetarian: data?['isVegetarian'],
         isVegan: data?['isVegan'],
         selectedRecipe: data?['selectedRecipe'],
-        schedule: data?['schedule']);
+        schedule: data?['schedule'],
+        task: data?['task']);
   }
 
   Stream<User> get user {
@@ -63,6 +66,25 @@ class DatabaseService {
         .doc(uid)
         .snapshots()
         .map((snapshot) => _userFromSnapshot(snapshot));
+  }
+
+  Future<User> getUserFromId(String uid) async {
+    return userCollection.doc(uid).get().then(
+          (data) => User(
+              uid: uid,
+              name: data?['name'],
+              email: data?['email'],
+              hasCar: data?['hasCar'],
+              isDarkMode: data?['isDarkMode'],
+              cookiesSaved: data?['cookiesSaved'],
+              localStorageSaved: data?['localStorageSaved'],
+              geolocationEnabled: data?['geolocationEnabled'],
+              isVegetarian: data?['isVegetarian'],
+              isVegan: data?['isVegan'],
+              selectedRecipe: data?['selectedRecipe'],
+              schedule: data?['schedule'],
+              task: data?['task']),
+        );
   }
 
   // Recipes
