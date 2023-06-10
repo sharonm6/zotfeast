@@ -123,7 +123,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 geolocationEnabled: _geolocationEnabled,
                 isVegetarian: _isVegetarian,
                 isVegan: _isVegan,
-                schedule: _schedule);
+                schedule: _schedule,
+                task: _user.task);
           });
         }
       }
@@ -203,7 +204,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             geolocationEnabled: _geolocationEnabled,
                             isVegetarian: _isVegetarian,
                             isVegan: _isVegan,
-                            schedule: _schedule)
+                            schedule: _schedule,
+                            task: _user.task)
                       }),
               SizedBox(height: 10.0),
               Center(
@@ -377,7 +379,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                       geolocationEnabled: _geolocationEnabled,
                                       isVegetarian: _isVegetarian,
                                       isVegan: _isVegan,
-                                      schedule: _schedule)
+                                      schedule: _schedule,
+                                      task: _user.task)
                             }),
                   ]),
                 ),
