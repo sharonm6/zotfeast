@@ -42,7 +42,8 @@ Future<String> sendICSFileToBackend(
     'date': date,
   };
 
-  final url = Uri.parse('http://127.0.0.1:5001/api/calendar/parse');
+  final url =
+      Uri.parse('http://zotfeast-backend.vercel.app/api/calendar/parse');
   final body = {'date': date, 'ics': ics};
 
   final response = await http.post(url,
