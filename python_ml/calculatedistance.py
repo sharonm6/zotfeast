@@ -1,15 +1,25 @@
 import math
+def _toRadians(degrees):
+    return degrees * (math.pi / 180)
 
-def calculateDistance(longitude: float, latitude: float, task: int):
-    random_location = [37.7,-122.40] # x1,x2    
-    albertons = [33.650,-117.83139] # y1,y2
+def calculateDistance(latitude: float, longitude: float, task: int):  
+    albertons = [33.65027288359544, -117.83136622883586]
+    earthRadius = 3958.8
 
-    x1 = random_location[0]
-    x2 = random_location[1]
-    y1 = albertons[0]
-    y2 = albertons[1]
+    current_latitude = latitude
+    current_longitude = longitude
+    a_lat = albertons[0]
+    a_long = albertons[1]
 
-    distance = math.sqrt(((x2-x1)**2 + (y2-y1)**2))
-    
-    return distance
+
+    target_Lat = _toRadians(a_lat - current_latitude)
+    target_Lon = _toRadians(a_long - current_longitude)
+
+    y = math.sin(target_Lat / 2) * math.sin(target_Lat / 2) + math.cos(_toRadians(current_latitude)) * math.cos(_toRadians(a_lat)) * math.sin(target_Lon / 2) * math.sin(target_Lon / 2)
+    z = 2 * math.asin(math.sqrt(y))
+    miles = earthRadius * z
+
+    return miles
+
+print(calculateDistance(33.6,-117.84,1))
 

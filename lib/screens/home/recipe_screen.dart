@@ -26,7 +26,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Card(
-        margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 300.0),
+        margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 20.0),
         child: ListTile(
             leading: CircleAvatar(
               radius: 25.0,
